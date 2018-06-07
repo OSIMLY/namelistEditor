@@ -1,3 +1,7 @@
+const axios = require('axios').create({
+  withCredentials: true
+})
+
 const settings = {
   state: {
     charset: 'S',
@@ -26,6 +30,15 @@ const settings = {
     UPDATE(state, payload) {
       state = Object.assign(state, payload)
       localStorage.setItem('settings', JSON.stringify(state))
+    },
+    SAVE(state) {
+      axios.put('https://cloud.minapp.com/userve/v1/table/35788/record/5af2ab524bf03c2b03a3f6b5/', { value: JSON.stringify(state) })
+        .then(res => {
+          console.log('success', res)
+        }, err => {
+          localStorage.setItem('settings', JSON.stringify(state))
+          console.log('error', err)
+        })
     }
   },
   actions: {}

@@ -109,7 +109,6 @@ export default {
       this.baseImport = convertString(this.baseImport, this.charset)
     },
     confirmImport() {
-      debugger
       const firstTitle = convertString(this.firstTitle, this.charset)
       const secondTitle = convertString(this.secondTitle, this.charset)
       const thirdTitle = convertString(this.thirdTitle, this.charset)
