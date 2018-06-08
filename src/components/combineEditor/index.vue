@@ -132,6 +132,9 @@ export default {
           nameArr.push(orderChar + this.strTitle + '\n' + curItem)
         }
       }
+      this.$store.commit('UPDATE', {
+        [k(this.label, 'Splited')]: nameArr
+      })
       return nameArr
     }
   }

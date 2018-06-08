@@ -14,6 +14,9 @@ const settings = {
     firstCombine: '',
     secondCombine: '',
     thirdCombine: '',
+    firstSplited: '',
+    secondSplited: '',
+    thirdSplited: '',
     commonKeywords: '',
     firstKeywords: '',
     firstTitle: '堕胎婴灵回向名单',
@@ -34,11 +37,31 @@ const settings = {
     SAVE(state) {
       axios.put('https://cloud.minapp.com/userve/v1/table/35788/record/5af2ab524bf03c2b03a3f6b5/', { value: JSON.stringify(state) })
         .then(res => {
-          console.log('success', res)
+          console.log('settings saved success', res)
         }, err => {
           localStorage.setItem('settings', JSON.stringify(state))
-          console.log('error', err)
+          console.log('settings saved error', err)
         })
+      const finalList = {
+        ...state.firstSplited,
+        ...state.secondSplited,
+        ...state.thirdSplited
+      }
+      axios.put('https://cloud.minapp.com/userve/v1/table/35788/record/5b1a1c911ebc6c3df41a133c/', { value: JSON.stringify(finalList) })
+        .then(res => {
+          console.log('final list saved success', res)
+        }, err => {
+          localStorage.setItem('settings', JSON.stringify(finalList))
+          console.log('final list saved error', err)
+        })
+    },
+    COMBINE(state) {
+      state.firstImport += state.firstCurrent
+      state.firstCurrent = ''
+      state.secondImport += state.secondCurrent
+      state.secondCurrent = ''
+      state.thirdImport += state.thirdCurrent
+      state.thirdCurrent = ''
     }
   },
   actions: {}

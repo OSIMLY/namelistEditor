@@ -6,6 +6,8 @@
             <el-card shadow="never">
                 <el-button type="primary"
                     @click="handleSave">保存</el-button>
+                <el-button type="normal"
+                    @click="handleCombine">合并</el-button>
             </el-card>
             <el-card header="通用"
                 shadow="never">
@@ -101,6 +103,9 @@ export default {
   methods: {
     handleSave() {
       this.$store.commit('SAVE')
+    },
+    handleCombine() {
+      this.$store.commit('COMBINE')
     }
   }
 }
