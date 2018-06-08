@@ -42,11 +42,11 @@ const settings = {
           localStorage.setItem('settings', JSON.stringify(state))
           console.log('settings saved error', err)
         })
-      const finalList = {
+      const finalList = [
         ...state.firstSplited,
         ...state.secondSplited,
         ...state.thirdSplited
-      }
+      ]
       axios.put('https://cloud.minapp.com/userve/v1/table/35788/record/5b1a1c911ebc6c3df41a133c/', { value: JSON.stringify(finalList) })
         .then(res => {
           console.log('final list saved success', res)
@@ -62,6 +62,9 @@ const settings = {
       state.secondCurrent = ''
       state.thirdImport += state.thirdCurrent
       state.thirdCurrent = ''
+    },
+    SAVEFINALLIST(state, { key, value }) {
+      state[key + 'Splited'] = value
     }
   },
   actions: {}
