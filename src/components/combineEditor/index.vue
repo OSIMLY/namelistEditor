@@ -61,15 +61,54 @@ export default {
       numChar: ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九'],
       activeNames: ['2'],
       isSplit: true,
-      combineNameString: ''
+      combineNameString: '',
+      nameArray: []
+    }
+  },
+  created() {
+    this.nameArray = this.getNameArray()
+  },
+  methods: {
+    getNameArray() {
+      const val = this.strCombine
+      const nameArr = []
+      const splitCount = this.splitCount
+      const itemLength = Math.ceil(val.length / splitCount)
+
+      for (let i = 0; i < splitCount; i++) {
+        const start = itemLength * i
+        const end = itemLength * (i + 1)
+        const curItem = val.slice(start, end)
+        const orderChar = this.numChar[this.startOrder + i] + '\n'
+        if (i > 0) {
+          const firstSpace = curItem.indexOf(' ')
+          nameArr[i - 1] += curItem.slice(0, firstSpace)
+          nameArr.push(orderChar + curItem.slice(firstSpace).trim())
+        } else {
+          nameArr.push(orderChar + this.strTitle + '\n' + curItem)
+        }
+      }
+      this.$store.commit('SAVEFINALLIST', {
+        key: this.label,
+        value: nameArr
+      })
+      return nameArr
     }
   },
   computed: {
     strTitle() {
       return this.$store.state.settings[k(this.label, 'Title')]
     },
-    splitCount() {
-      return this.$store.state.settings[k(this.label, 'SplitCount')]
+    splitCount: {
+      get() {
+        return this.$store.state.settings[k(this.label, 'SplitCount')]
+      },
+      set(val) {
+        this.$store.commit('UPDATE', {
+          [k(this.label, 'SplitCount')]: val
+        })
+        this.nameArray = this.getNameArray()
+      }
     },
     startOrder() {
       const firstCount = this.$store.state.settings.firstSplitCount
@@ -112,27 +151,6 @@ export default {
           [k(this.label, 'Combine')]: val
         })
       }
-    },
-    nameArray() {
-      const val = this.strCombine
-      const nameArr = []
-      const splitCount = this.splitCount
-      const itemLength = Math.ceil(val.length / splitCount)
-
-      for (let i = 0; i < splitCount; i++) {
-        const start = itemLength * i
-        const end = itemLength * (i + 1)
-        const curItem = val.slice(start, end)
-        const orderChar = this.numChar[this.startOrder + i] + '\n'
-        if (i > 0) {
-          const firstSpace = curItem.indexOf(' ')
-          nameArr[i - 1] += curItem.slice(0, firstSpace)
-          nameArr.push(orderChar + curItem.slice(firstSpace).trim())
-        } else {
-          nameArr.push(orderChar + this.strTitle + '\n' + curItem)
-        }
-      }
-      return nameArr
     }
   }
 }

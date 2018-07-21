@@ -3,6 +3,12 @@
         <el-form ref="form"
             :model="form"
             label-width="120px">
+            <el-card shadow="never">
+                <el-button type="primary"
+                    @click="handleSave">保存</el-button>
+                <el-button type="normal"
+                    @click="handleCombine">合并</el-button>
+            </el-card>
             <el-card header="通用"
                 shadow="never">
                 <el-form-item label="文字编码">
@@ -93,6 +99,14 @@ export default {
   },
   created() {
     this.form = JSON.parse(localStorage.getItem('settings'))
+  },
+  methods: {
+    handleSave() {
+      this.$store.commit('SAVE')
+    },
+    handleCombine() {
+      this.$store.commit('COMBINE')
+    }
   }
 }
 </script>
