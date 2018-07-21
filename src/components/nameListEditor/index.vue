@@ -205,7 +205,6 @@ export default {
     importArray: {
       deep: true,
       handler(val) {
-        debugger
         const importString = val.map(item => item.name).join(' ')
         this.$store.commit('UPDATE', {
           [k(this.label, 'Import')]: importString,
@@ -254,7 +253,6 @@ export default {
       })
     },
     handleBtnUniqueClick() {
-      debugger
       const spliter = ' '
       const keyWords = this.getKeywords()
       let originString = this.convertChar(this.strCurrent)
@@ -294,7 +292,6 @@ export default {
       this.selectedText = row.name
     },
     handleDelete(row, $index) {
-      debugger
       if (row.type === 'import') {
         this.importArray.splice(this.importArray.indexOf(row), 1)
       } else {
