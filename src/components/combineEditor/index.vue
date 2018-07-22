@@ -1,8 +1,9 @@
 <template>
   <el-collapse v-model="activeNames"
-    accordion>
+    accordion
+    @change="handleCollapseChange">
     <el-collapse-item title="往期名单"
-      name="1">
+      name="old">
       <el-input type="textarea"
         rows="15"
         v-model="strImport"
@@ -10,11 +11,11 @@
       </el-input>
     </el-collapse-item>
     <el-collapse-item title="新增姓名"
-      name="2">
+      name="add">
       <name-list-editor :label="label" />
     </el-collapse-item>
     <el-collapse-item title="本期名单"
-      name="3">
+      name="new">
       <el-row class="toolbox">
         <el-input-number v-model="splitCount"
           size="small"
@@ -93,6 +94,11 @@ export default {
         value: nameArr
       })
       return nameArr
+    },
+    handleCollapseChange(name) {
+      if (name === 'new') {
+        this.nameArray = this.getNameArray()
+      }
     }
   },
   computed: {
