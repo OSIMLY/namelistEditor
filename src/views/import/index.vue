@@ -3,6 +3,8 @@
     <el-card shadow="never">
       <el-button type="primary"
         @click="dialogFormVisible = true">导入</el-button>
+      <el-button type="primary"
+        @click="clearPrev">清除往期</el-button>
     </el-card>
     <el-card header="1. 堕胎婴灵"
       shadow="never">
@@ -102,6 +104,36 @@ export default {
           thirdImport: val
         })
       }
+    },
+    firstCurrent: {
+      get() {
+        return this.$store.state.settings.firstCurrent
+      },
+      set(val) {
+        this.$store.commit('UPDATE', {
+          firstCurrent: val
+        })
+      }
+    },
+    secondCurrent: {
+      get() {
+        return this.$store.state.settings.secondCurrent
+      },
+      set(val) {
+        this.$store.commit('UPDATE', {
+          secondCurrent: val
+        })
+      }
+    },
+    thirdCurrent: {
+      get() {
+        return this.$store.state.settings.thirdCurrent
+      },
+      set(val) {
+        this.$store.commit('UPDATE', {
+          thirdCurrent: val
+        })
+      }
     }
   },
   methods: {
@@ -120,6 +152,12 @@ export default {
       this.secondImport = split2_3 && split2_3[0] ? split2_3[0].trim() : ''
       this.thirdImport = split2_3 && split2_3[1] ? split2_3[1].trim() : ''
       this.dialogFormVisible = false
+    },
+    clearPrev() {
+      this.thirdImport = this.thirdImport.split('|')[0]
+      this.firstCurrent = ''
+      this.secondCurrent = ''
+      this.thirdCurrent = ''
     }
   }
 }
