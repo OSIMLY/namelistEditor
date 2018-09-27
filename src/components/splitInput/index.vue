@@ -16,10 +16,18 @@
       width="100"
       align="center">
       <template slot-scope="scope">
-        <el-button type="primary"
-          class="btnCopy"
-          @click="_=>doCopy(scope.row)"
-          size="small">复制</el-button>
+        <el-row>
+          <el-button type="primary"
+            class="btnCopy"
+            @click="_=>doCopy(scope.row)"
+            size="small">复制</el-button>
+        </el-row>
+        <el-row>
+          <el-button type="primary"
+            class="btnCopy"
+            @click="_=>doDownload(scope)"
+            size="small">下载</el-button>
+        </el-row>
       </template>
     </el-table-column>
   </el-table>
@@ -46,6 +54,13 @@ export default {
           type: 'danger'
         })
       ))
+    },
+    doDownload(scope) {
+      const val = scope.row
+      const index = scope.$index
+      const FileSaver = require('file-saver')
+      const blob = new Blob([val], { type: 'text/plain;charset=utf-8' })
+      FileSaver.default(blob, '第' + index + '部分.txt')
     }
   }
 }

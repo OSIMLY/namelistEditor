@@ -32,7 +32,6 @@ export default {
     download() {
       const FileSaver = require('file-saver')
       const blob = new Blob([this.fullList], { type: 'text/plain;charset=utf-8' })
-      debugger
       FileSaver.default(blob, 'hello world.txt')
     }
   }
