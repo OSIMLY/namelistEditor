@@ -4,7 +4,7 @@ const tc = '萬與醜專業叢東絲丟兩嚴喪個爿豐臨為麗舉麼義烏�
 
 var SimpleBig = {}
 
-SimpleBig.s2t = function (str) {
+SimpleBig.s2t = function(str) {
   var ret = ''
   let i, len, idx
   str = str || this
@@ -15,7 +15,7 @@ SimpleBig.s2t = function (str) {
   return ret
 }
 
-SimpleBig.t2s = function (str) {
+SimpleBig.t2s = function(str) {
   var ret = ''
   let i, len, idx
   str = str || this

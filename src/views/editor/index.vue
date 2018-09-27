@@ -10,16 +10,21 @@
       <el-tab-pane label="3. 祈福">
         <CombineEditor label="third" />
       </el-tab-pane>
+      <el-tab-pane label="4. 全部">
+        <FullList />
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
 
 <script>
 import CombineEditor from '@/components/combineEditor/index'
+import FullList from '@/components/fullList/index'
 
 export default {
   components: {
-    CombineEditor
+    CombineEditor,
+    FullList
   }
 }
 </script>

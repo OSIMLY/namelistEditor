@@ -6,6 +6,11 @@
         class="gutter-right"
         @click="handleBtnUniqueClick"
         size="small">去重</el-button>
+      <el-switch v-model="historyUnique"
+        class="gutter-right"
+        active-text="全文"
+        inactive-text="新增">
+      </el-switch>
       <el-button-group class="gutter-right">
         <el-button type="normal"
           size="small"
@@ -139,7 +144,8 @@ export default {
       importArray: [],
       currentArray: [],
       filtedArray: [],
-      selectedText: ''
+      selectedText: '',
+      historyUnique: true
     }
   },
   props: {
@@ -157,8 +163,16 @@ export default {
     commonKeywords() {
       return this.$store.state.settings.commonKeywords
     },
-    strImport() {
-      return this.$store.state.settings[k(this.label, 'Import')]
+    strImport: {
+      get() {
+        return this.$store.state.settings[k(this.label, 'Import')]
+      },
+      set(val) {
+        this.$store.commit('UPDATE', {
+          [k(this.label, 'Import')]: val,
+          [k(this.label, 'Combine')]: val + ' ' + this.strCurrent
+        })
+      }
     },
     specialKeywords: {
       get() {
@@ -256,18 +270,23 @@ export default {
       const spliter = ' '
       const keyWords = this.getKeywords()
       let originString = this.convertChar(this.strCurrent)
+      // 标准化分隔符
       originString = originString.replace(
         /[,，\.。;；、!！:：．\(\)\[\]\s\n]+/g,
         spliter
       )
+      // 清理关键词
       originString = originString.replace(
         RegExp(this.convertChar(keyWords), 'g'),
         ''
       )
       let uniqueSet = Array.from(new Set(originString.trim().split(spliter)))
-      uniqueSet = uniqueSet.filter(
-        item => this.strImport.split(' ').indexOf(item) === -1
-      )
+      if (this.historyUnique) {
+        this.strImport = Array.from(new Set(this.strImport.trim().split(spliter))).join(spliter)
+        uniqueSet = uniqueSet.filter(
+          item => this.strImport.split(' ').indexOf(item) === -1
+        )
+      }
       originString = uniqueSet.join(spliter)
       this.strCurrent = originString.trim()
     },
